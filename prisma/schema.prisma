@@ -41,6 +41,7 @@ model Listing {
   subCategory SubCategoryEnum
   sex         SexEnum
   age         Int
+  ageUnit     AgeUnitEnum
   status      ListingStatusEnum
   owner       User      @relation(fields: [ownerId], references: [id])
   ownerId     Int
@@ -62,7 +63,7 @@ model Transaction {
 }
 
 enum CategoryEnum {
-  PET
+  DOG
   CAT
   BIRD
 }
@@ -95,4 +96,11 @@ enum TransactionStatusEnum {
   PENDING
   COMPLETED
   REFUNDED
+}
+
+enum AgeUnitEnum {
+  DAY
+  WEEK
+  MONTH
+  YEAR
 }

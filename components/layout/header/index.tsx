@@ -2,12 +2,13 @@
 import Link from 'next/link';
 import { ShoppingBasket, PlusIcon, Newspaper, Headphones } from 'lucide-react';
 
-import { SignedIn, UserButton } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
+
+import CustomUserButton from './signed-in';
 
 export default function Header() {
   return (
-    <header className="flex w-full items-center border-[1px] border-b-black bg-white p-5">
+    <header className="sticky top-0 z-10 flex w-full items-center border-[1px] border-b-black bg-white px-5 py-2">
       <div className="mx-auto flex w-full max-w-7xl justify-between">
         <Link href="/" className="flex items-center">
           <img src="/icons/logo.svg" alt="Avitox's logo" className="h-10" />{' '}
@@ -27,11 +28,7 @@ export default function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <SignedIn>
-            <div className="flex-center cursor-pointer gap-2 rounded-lg px-2 py-1 transition-all ease-in-out hover:bg-slate-100">
-              <UserButton showName />
-            </div>
-          </SignedIn>
+          <CustomUserButton />
           <Button
             asChild
             className="w-fit bg-rose-700 text-white shadow-transparent hover:bg-rose-600 hover:shadow-sm hover:shadow-rose-600"

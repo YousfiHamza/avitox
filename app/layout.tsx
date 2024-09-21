@@ -2,14 +2,18 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
 import { ClerkProvider } from '@clerk/nextjs';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import { HorizontalAds } from '@/components/modules/Ads/Horizontal';
+
+import { ApolloWrapper } from '@/graphql/client/apollo-wrapper';
 
 import { cn } from '@/lib/utils';
 
 import './globals.css';
-
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
@@ -38,20 +42,26 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={cn(
-            'flex min-h-screen flex-col justify-between bg-slate-200 antialiased',
-            geistSans.variable,
-            poppins.variable,
-            geistMono.variable,
-          )}
-        >
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </body>
-      </html>
+      <ApolloWrapper>
+        <html lang="en">
+          <body
+            className={cn(
+              'flex min-h-screen flex-col justify-between bg-slate-200 antialiased',
+              geistSans.variable,
+              poppins.variable,
+              geistMono.variable,
+            )}
+          >
+            <Header />
+            <main className="mx-auto w-full max-w-screen-xl flex-1">
+              <HorizontalAds />
+              {children}
+            </main>
+            <Footer />
+            <ToastContainer position="bottom-center" autoClose={5000} />
+          </body>
+        </html>
+      </ApolloWrapper>
     </ClerkProvider>
   );
 }

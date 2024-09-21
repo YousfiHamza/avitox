@@ -7,7 +7,7 @@ export const typeDefs = gql`
 
   # Enums
   enum CategoryEnum {
-    PET
+    DOG
     CAT
     BIRD
   }
@@ -42,6 +42,13 @@ export const typeDefs = gql`
     REFUNDED
   }
 
+  enum AgeUnitEnum {
+    DAY
+    WEEK
+    MONTH
+    YEAR
+  }
+
   # Input types for mutations
   input CreateUserInput {
     clerkId: String!
@@ -71,7 +78,10 @@ export const typeDefs = gql`
     subCategory: SubCategoryEnum!
     sex: SexEnum!
     age: Int
+    ageUnit: AgeUnitEnum!
     ownerId: Int!
+    status: ListingStatusEnum!
+    boosted: Boolean
   }
 
   input UpdateListingInput {
@@ -85,6 +95,7 @@ export const typeDefs = gql`
     subCategory: SubCategoryEnum
     sex: SexEnum
     age: Int
+    ageUnit: AgeUnitEnum
     boosted: Boolean
     status: ListingStatusEnum
   }
@@ -118,6 +129,7 @@ export const typeDefs = gql`
     subCategory: SubCategoryEnum!
     sex: SexEnum!
     age: Int
+    ageUnit: AgeUnitEnum!
     status: ListingStatusEnum!
     owner: User! # User who owns the listing
   }

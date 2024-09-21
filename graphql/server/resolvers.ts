@@ -10,6 +10,8 @@ import {
   CreateTransactionInput,
 } from '../types';
 
+import { handleCreateListing } from './helpers/listing';
+
 const DateTime = new GraphQLScalarType({
   name: 'DateTime',
   description: 'DateTime scalar type',
@@ -106,10 +108,13 @@ export const resolvers = {
     createListing: async (
       _: any,
       { data }: { data: CreateListingInput },
-    ): Promise<Listing> => {
-      return await prisma.listing.create({
-        data,
-      });
+    ): Promise<Listing | null> => {
+      const listingData = await handleCreateListing(data);
+      return {
+        ...listingData,
+        id: 1,
+        boosted: false,
+      };
     },
 
     updateListing: async (

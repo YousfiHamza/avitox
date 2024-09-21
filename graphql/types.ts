@@ -4,6 +4,7 @@ import {
   SexEnum,
   ListingStatusEnum,
   TransactionStatusEnum,
+  AgeUnitEnum,
 } from '@prisma/client'; // Ensure you import enums if needed
 
 export interface User {
@@ -31,6 +32,7 @@ export interface Listing {
   subCategory: SubCategoryEnum; // or SubCategoryEnum if you have a specific type
   sex: SexEnum; // or SexEnum if you have a specific type
   age: number;
+  ageUnit: AgeUnitEnum;
   status: ListingStatusEnum; // or ListingStatusEnum if you have a specific type
   ownerId: number;
 }
@@ -50,13 +52,15 @@ export interface CreateListingInput {
   title: string;
   description: string;
   price: number;
-  images: any; // Adjust the type based on your JSON structure
+  images: any;
   location: string;
-  category: CategoryEnum; // Use CategoryEnum type
-  subCategory: SubCategoryEnum; // Use SubCategoryEnum type
-  sex: SexEnum; // or SexEnum if you have a specific type
+  category: CategoryEnum;
+  subCategory: SubCategoryEnum;
+  sex: SexEnum;
   age: number;
+  ageUnit: AgeUnitEnum;
   status: ListingStatusEnum;
+  boosted: boolean;
   ownerId: number;
 }
 
