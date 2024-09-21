@@ -93,7 +93,7 @@ export default function Footer() {
       {/* Second Section */}
       <div className="mt-8 px-4 pt-4 lg:mt-0 lg:pt-0 xl:px-0">
         <div className="mx-auto flex flex-col items-center justify-between md:flex-row">
-          <div className="text-theme mx-auto w-fit border-t-2 border-gray-300 text-center text-sm">
+          <div className="text-theme mx-auto w-fit text-center text-sm">
             ©2024 Avitox LTD. All rights reserved.
           </div>
           {/* <div className="mt-2 flex space-x-4 md:mt-0">

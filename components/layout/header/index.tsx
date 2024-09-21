@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { ShoppingBasket, PlusIcon, Newspaper, Headphones } from 'lucide-react';
 
@@ -12,30 +13,18 @@ export default function Header() {
           <img src="/icons/logo.svg" alt="Avitox's logo" className="h-10" />{' '}
           <span className="text-2xl font-bold">X</span>
         </Link>
-        <nav className="flex flex-1 items-center justify-center gap-5 font-medium lg:gap-10">
+        <nav className="flex flex-1 items-center justify-center gap-5 font-poppins font-medium lg:gap-10">
           <Link href="/market" className="nav-link">
             <ShoppingBasket />
             Market Place
           </Link>
           <Link href="#" className="nav-link">
-            <Newspaper /> Blog
+            <Newspaper /> News
           </Link>
           <Link href="#" className="nav-link">
             <Headphones />
             Support
           </Link>
-          {/* <div>
-            <SignedOut>
-              <Button
-                asChild
-                className="bg-green-700 px-2 py-1 text-white hover:bg-green-600 hover:opacity-80 hover:shadow-sm hover:shadow-green-700"
-              >
-                <Link href="/auth/sign-in" className="">
-                  <AvatarIcon className="size-5 font-bold" />
-                </Link>
-              </Button>
-            </SignedOut>
-          </div> */}
         </nav>
         <div className="flex items-center gap-4">
           <SignedIn>
