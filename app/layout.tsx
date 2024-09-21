@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
+import { ClerkProvider } from '@clerk/nextjs';
+
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 
 import { cn } from '@/lib/utils';
 
@@ -33,17 +37,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          'bg-slate-200 antialiased',
-          geistSans.variable,
-          poppins.variable,
-          geistMono.variable,
-        )}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={cn(
+            'flex min-h-screen flex-col justify-between bg-slate-200 antialiased',
+            geistSans.variable,
+            poppins.variable,
+            geistMono.variable,
+          )}
+        >
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

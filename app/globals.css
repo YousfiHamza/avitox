@@ -64,3 +64,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .nav-link {
+    @apply flex text-nowrap text-gray-500 transition-all ease-in-out hover:scale-105 hover:text-black;
+  }
+}

@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  clerkId   String    @unique
+  email     String    @unique
+  username  String    @unique
+  photo     String?
+  firstName String
+  lastName  String
+  stars     Int       @default(50)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  listings  Listing[]
+  transactionsAsBuyer Transaction[] @relation("BuyerTransactions")
+  transactionsAsSeller Transaction[] @relation("SellerTransactions")
+}
+
+model Listing {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  images      Json      // Changed from String[] to Json
+  location    String
+  boosted     Boolean   @default(false)
+  category    CategoryEnum
+  subCategory SubCategoryEnum
+  sex         SexEnum
+  age         Int
+  status      ListingStatusEnum
+  owner       User      @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Transaction {
+  id            Int       @id @default(autoincrement())
+  buyerId       Int
+  sellerId      Int
+  transactionId String     @unique
+  price         Float
+  status        TransactionStatusEnum
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  buyer         User      @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  seller        User      @relation("SellerTransactions", fields: [sellerId], references: [id])
+}
+
+enum CategoryEnum {
+  PET
+  CAT
+  BIRD
+}
+
+enum SubCategoryEnum {
+  LABRADOR
+  BULLDOG
+  PUG
+  PERSIAN
+  BIRMAN
+  EXOTIC
+  PIGEON
+  CANARY
+  PARROT
+}
+
+enum SexEnum {
+  MALE
+  FEMALE
+  UNKNOWN
+}
+
+enum ListingStatusEnum {
+  ACTIVE
+  SOLD
+  EXPIRED
+}
+
+enum TransactionStatusEnum {
+  PENDING
+  COMPLETED
+  REFUNDED
+}
