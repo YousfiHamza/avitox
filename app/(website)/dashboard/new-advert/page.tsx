@@ -1,13 +1,20 @@
+import { getUserById } from '@/lib/actions/user.actions';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-export default function NewAdvertPageage() {
+export default async function NewAdvertPageage() {
   const { userId } = auth();
 
   if (!userId) {
-    return redirect('/auth/sign-in');
+    return redirect('/sign-in');
   }
 
-  return <div>Hello from New Advert</div>;
+  const user = await getUserById(userId);
+
+  if (!user) {
+    return redirect('/sign-in');
+  }
+
+  return <div>Hello from New Advert: {user.firstName}</div>;
 }

@@ -1,18 +1,18 @@
 'use server';
 
+import { User } from '@prisma/client';
+
 import prisma from '@/prisma';
+
 import { handleError } from '../utils';
-import { revalidatePath } from 'next/cache';
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
   try {
-    console.log('user: ', user);
     const newUser = await prisma.user.create({
       data: user,
     });
 
-    console.log('user: ', newUser);
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
@@ -38,14 +38,10 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
 // DELETE
 export async function deleteUser(clerkId: string) {
   try {
-    console.log('clerkId: ', clerkId);
-
     // Find user to delete
     const userToDelete = await prisma.user.findUnique({
       where: { clerkId },
     });
-
-    console.log('userToDelete: ', userToDelete);
 
     if (!userToDelete) {
       throw new Error('User not found: deleteUser');
@@ -59,5 +55,22 @@ export async function deleteUser(clerkId: string) {
     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
   } catch (error) {
     handleError(error);
+  }
+}
+
+// READ
+export async function getUserById(userId: string): Promise<User | null> {
+  try {
+    // Find user
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+    });
+
+    if (!user) throw new Error('User not found: getUserById');
+
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    handleError(error);
+    return null;
   }
 }

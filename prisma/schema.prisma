@@ -21,7 +21,7 @@ model User {
   photo     String?
   firstName String
   lastName  String
-  stars     Int       @default(50)
+  coins     Int       @default(50)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   listings  Listing[]

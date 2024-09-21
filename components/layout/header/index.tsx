@@ -18,10 +18,10 @@ export default function Header() {
             <ShoppingBasket />
             Market Place
           </Link>
-          <Link href="#" className="nav-link">
+          <Link href="/news" className="nav-link">
             <Newspaper /> News
           </Link>
-          <Link href="#" className="nav-link">
+          <Link href="/support" className="nav-link">
             <Headphones />
             Support
           </Link>
