@@ -33,7 +33,7 @@ export default function Header() {
             asChild
             className="w-fit bg-rose-700 text-white shadow-transparent hover:bg-rose-600 hover:shadow-sm hover:shadow-rose-600"
           >
-            <Link href="/dashboard/new-advert">
+            <Link href="/dashboard/listings/new">
               <PlusIcon className="mr-2 font-bold text-white" /> New Advert
             </Link>
           </Button>

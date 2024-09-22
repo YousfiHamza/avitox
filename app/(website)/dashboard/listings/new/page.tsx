@@ -3,32 +3,29 @@ import { auth } from '@clerk/nextjs/server';
 
 import CreateListingForm from '@/components/modules/create-listing-form';
 import { VerticalAds } from '@/components/modules/Ads/Vertical';
+import { HotListings } from '@/components/modules/hot-listings';
 
-import { getUserById } from '@/lib/actions/user.actions';
-import { LatestPosts } from '@/components/modules/LatestPosts';
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 export default async function NewAdvertPage() {
   const { userId } = auth();
 
   if (!userId) {
-    return redirect('/sign-in');
+    return redirect('/auth/sign-in');
   }
 
-  const user = await getUserById(userId);
+  const user = await getUserByClerkId(userId);
 
   if (!user) {
-    return redirect('/sign-in');
+    return redirect('/auth/sign-in');
   }
 
   return (
     <div className="container mx-auto pb-8">
-      <h1 className="mb-6 font-poppins text-3xl font-bold text-blue-900">
-        <span className="italic">Hello {user.firstName}</span> 👋🏼
-      </h1>
       <div className="flex w-full gap-2">
         <CreateListingForm ownerId={user.id} />
         <div className="flex min-h-full flex-col justify-between gap-3 self-stretch">
-          <LatestPosts />
+          <HotListings />
           <VerticalAds />
         </div>
       </div>

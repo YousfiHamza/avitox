@@ -108,13 +108,8 @@ export const resolvers = {
     createListing: async (
       _: any,
       { data }: { data: CreateListingInput },
-    ): Promise<Listing | null> => {
-      const listingData = await handleCreateListing(data);
-      return {
-        ...listingData,
-        id: 1,
-        boosted: false,
-      };
+    ): Promise<Listing | undefined> => {
+      return handleCreateListing(data);
     },
 
     updateListing: async (

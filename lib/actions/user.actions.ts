@@ -5,6 +5,7 @@ import { User } from '@prisma/client';
 import prisma from '@/prisma';
 
 import { handleError } from '../utils';
+import { revalidatePath } from 'next/cache';
 
 // CREATE
 export async function createUser(user: CreateUserParams) {
@@ -28,7 +29,9 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
     });
 
     if (!updatedUser) throw new Error('User update failed');
-
+    console.log('user updated');
+    revalidatePath('/', 'layout');
+    console.log('path revalidate');
     return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {
     handleError(error);
@@ -59,8 +62,12 @@ export async function deleteUser(clerkId: string) {
 }
 
 // READ
-export async function getUserById(userId: string): Promise<User | null> {
+export async function getUserByClerkId(
+  userId: string | null,
+): Promise<User | null> {
   try {
+    if (!userId) return null;
+
     // Find user
     const user = await prisma.user.findUnique({
       where: { clerkId: userId },

@@ -4,7 +4,7 @@ import Link from 'next/link';
 // import { getLatestPosts } from "@/lib/contentful/api";
 // import { formatDateTime } from "@/lib/utils";
 
-export async function LatestPosts() {
+export async function HotListings() {
   // // TODO: change the implementation so we can request for 2 posts in each category in case the current post displayed in the page is one of the latest posts in this list.
   // const latestPosts = await getLatestPosts(preview);
 
@@ -15,7 +15,7 @@ export async function LatestPosts() {
   return (
     <div className="min-h-[333px] overflow-hidden rounded-sm border-[1px] bg-slate-100 p-2">
       <h5 className="px-4 text-xl font-bold leading-5 md:text-2xl md:leading-8 lg:text-3xl">
-        Latest Products
+        🔥 Hot Listings
       </h5>
       <ul className="flex flex-col gap-2">
         {/* {

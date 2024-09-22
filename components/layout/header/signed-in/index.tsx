@@ -1,22 +1,17 @@
-import { getUserById } from '@/lib/actions/user.actions';
-import { SignedIn, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
+import { UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
+import { User } from 'lucide-react';
+
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 export default async function CustomUserButton() {
   const { userId } = auth();
 
-  if (!userId) {
-    return null;
-  }
+  const user = await getUserByClerkId(userId);
 
-  const user = await getUserById(userId);
-
-  if (!user) {
-    return null;
-  }
-
-  return (
-    <SignedIn>
+  return user ? (
+    <>
       <div className="flex gap-6">
         <div className="flex items-center gap-1">
           <span className="text-lg font-semibold text-yellow-600">
@@ -28,6 +23,13 @@ export default async function CustomUserButton() {
           <UserButton />
         </div>
       </div>
-    </SignedIn>
+    </>
+  ) : (
+    <Link
+      href="/auth/sign-in"
+      className="flex h-10 w-fit items-center justify-center rounded-xl bg-green-800 p-2 font-medium text-slate-100"
+    >
+      <User size={30} />
+    </Link>
   );
 }

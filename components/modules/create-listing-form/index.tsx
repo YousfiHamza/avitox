@@ -109,8 +109,8 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
           },
         },
       });
-      // Revalidate Paths and redirect Users
       toast.success('Listing created successfully!');
+      // Redirect to update page
     } catch (err) {
       console.error('Error creating listing:', err);
       toast.error('Failed to create listing!');
@@ -122,7 +122,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
       onSubmit={handleSubmit}
       className="mx-auto w-full flex-1 rounded-lg bg-white p-6 shadow-lg"
     >
-      <h2 className="mb-6 flex items-center justify-center gap-3 text-center text-2xl font-bold uppercase text-green-700 text-primary underline">
+      <h2 className="mb-6 flex items-center justify-center gap-3 text-center font-poppins text-2xl font-bold uppercase italic text-green-800">
         <PlusCircle size={33} />
         Create New Listing
       </h2>
@@ -140,7 +140,9 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
           placeholder="Enter a catchy title"
         />
         {formErrors.title && (
-          <p className="mt-1 text-sm text-destructive">{formErrors.title[0]}</p>
+          <p className="mt-1 py-2 text-sm font-medium text-destructive">
+            {formErrors.title[0]}
+          </p>
         )}
       </div>
 
@@ -159,7 +161,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
           placeholder="Describe your Item in details"
         />
         {formErrors.description && (
-          <p className="mt-1 text-sm text-destructive">
+          <p className="mt-1 py-2 text-sm font-medium text-destructive">
             {formErrors.description[0]}
           </p>
         )}
@@ -195,11 +197,6 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
             />
           </label>
         </div>
-        {formErrors.images && (
-          <p className="mt-1 text-sm text-destructive">
-            {formErrors.images[0]}
-          </p>
-        )}
         <div className="mt-4 flex flex-wrap gap-4">
           {images.slice(0, 5).map((image, index) => (
             <Card key={index} className="relative">
@@ -216,7 +213,30 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
                   onClick={() => removeImage(index)}
                   variant="destructive"
                   size="icon"
-                  className="absolute right-1 top-1 h-6 w-6"
+                  className="absolute right-1 top-1 h-6 w-6 hover:brightness-150"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+          {images.slice(5, images.length).map((image, index) => (
+            <Card key={index} className="relative">
+              <CardContent className="relative h-36 w-36 p-0">
+                <div className="absolute h-full w-full bg-black opacity-75"></div>
+                <Image
+                  height={144}
+                  width={144}
+                  src={image.dataUrl}
+                  alt={image.name}
+                  className="h-full w-full rounded object-cover"
+                />
+                <Button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  variant="destructive"
+                  size="icon"
+                  className="absolute right-1 top-1 h-6 w-6 hover:brightness-150"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -224,6 +244,12 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
             </Card>
           ))}
         </div>
+
+        {formErrors.images && (
+          <p className="mt-1 py-2 text-sm font-medium text-destructive">
+            You need to upload 1 to 5 images maximum.
+          </p>
+        )}
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -247,7 +273,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
             </SelectContent>
           </Select>
           {formErrors.category && (
-            <p className="mt-1 text-sm text-destructive">
+            <p className="mt-1 py-2 text-sm font-medium text-destructive">
               {formErrors.category[0]}
             </p>
           )}
@@ -274,7 +300,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
             </SelectContent>
           </Select>
           {formErrors.subCategory && (
-            <p className="mt-1 text-sm text-destructive">
+            <p className="mt-1 py-2 text-sm font-medium text-destructive">
               {formErrors.subCategory[0]}
             </p>
           )}
@@ -300,7 +326,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
             </SelectContent>
           </Select>
           {formErrors.location && (
-            <p className="mt-1 text-sm text-destructive">
+            <p className="mt-1 py-2 text-sm font-medium text-destructive">
               {formErrors.location[0]}
             </p>
           )}
@@ -324,7 +350,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
               </SelectContent>
             </Select>
             {formErrors.sex && (
-              <p className="mt-1 text-sm text-destructive">
+              <p className="mt-1 py-2 text-sm font-medium text-destructive">
                 {formErrors.sex[0]}
               </p>
             )}
@@ -342,7 +368,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
               min="0"
             />
             {formErrors.age && (
-              <p className="mt-1 text-sm text-destructive">
+              <p className="mt-1 py-2 text-sm font-medium text-destructive">
                 {formErrors.age[0]}
               </p>
             )}
@@ -366,7 +392,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
               </SelectContent>
             </Select>
             {formErrors.ageUnit && (
-              <p className="mt-1 text-sm text-destructive">
+              <p className="mt-1 py-2 text-sm font-medium text-destructive">
                 {formErrors.ageUnit[0]}
               </p>
             )}
@@ -389,7 +415,9 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
           placeholder="Enter the price (in MAD)"
         />
         {formErrors.price && (
-          <p className="mt-1 text-sm text-destructive">{formErrors.price[0]}</p>
+          <p className="mt-1 py-2 text-sm font-medium text-destructive">
+            {formErrors.price[0]}
+          </p>
         )}
       </div>
 
