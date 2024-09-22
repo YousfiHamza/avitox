@@ -14,6 +14,10 @@ export async function createUser(user: CreateUserParams) {
       data: user,
     });
 
+    console.log('user created');
+    revalidatePath('/', 'layout');
+    console.log('path revalidate');
+
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
@@ -50,6 +54,10 @@ export async function deleteUser(clerkId: string) {
       throw new Error('User not found: deleteUser');
     }
 
+    console.log('user deleted');
+    revalidatePath('/', 'layout');
+    console.log('path revalidate');
+
     // Delete user
     const deletedUser = await prisma.user.delete({
       where: { clerkId },
@@ -77,7 +85,7 @@ export async function getUserByClerkId(
 
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
-    handleError(error);
+    console.error(error);
     return null;
   }
 }
