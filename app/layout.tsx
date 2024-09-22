@@ -5,6 +5,10 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import { HorizontalAds } from '@/components/modules/Ads/Horizontal';
+
 import { ApolloWrapper } from '@/graphql/client/apollo-wrapper';
 
 import { cn } from '@/lib/utils';
@@ -48,7 +52,12 @@ export default function RootLayout({
               geistMono.variable,
             )}
           >
-            {children}
+            <Header />
+            <main className="mx-auto w-full max-w-screen-xl flex-1">
+              <HorizontalAds />
+              {children}
+            </main>
+            <Footer />
             <ToastContainer position="bottom-center" autoClose={5000} />
           </body>
         </html>

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useState, FormEvent, useContext } from 'react';
+import { useState, FormEvent } from 'react';
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
@@ -25,22 +25,18 @@ import SubmitButton from '@/components/ui/submit-button';
 
 import { CATEGORIESMAP, LOCATIONS } from '@/lib/constants';
 
-import { CreateListingInput, FormErrors } from './types';
+import {
+  CreateListingFormProps,
+  CreateListingInput,
+  FormErrors,
+} from './types';
 import { createListingSchema } from './validations';
-import { redirect } from 'next/navigation';
-import { useUser } from '@/providers/user';
 
-export default function CreateListingForm() {
+export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
   const [createListing, { loading }] = useMutation(CREATE_LISTING_MUTATION);
   const [category, setCategory] = useState<keyof typeof CATEGORIESMAP | ''>('');
   const [images, setImages] = useState<CreateListingInput['images']>([]);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-
-  const ctx = useUser();
-
-  if (!ctx?.user) {
-    return redirect('/auth/sign-in');
-  }
 
   const handleCategoryChange = (value: string) => {
     setCategory(value as keyof typeof CATEGORIESMAP);
@@ -109,7 +105,7 @@ export default function CreateListingForm() {
             ...listingData,
             images: images.map(img => img.dataUrl),
             status: 'ACTIVE',
-            ownerId: ctx.user.id,
+            ownerId,
           },
         },
       });

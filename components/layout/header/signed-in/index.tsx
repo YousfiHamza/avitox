@@ -1,20 +1,21 @@
-'use client';
-
 import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { User } from 'lucide-react';
 
-import { useUser } from '@/providers/user';
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 
-export default function CustomUserButton() {
-  const ctx = useUser();
+export default async function CustomUserButton() {
+  const { userId } = auth();
 
-  return ctx?.user ? (
+  const user = await getUserByClerkId(userId);
+
+  return user ? (
     <>
       <div className="flex gap-6">
         <div className="flex items-center gap-1">
           <span className="text-lg font-semibold text-yellow-600">
-            {ctx.user.coins || -1}
+            {user.coins}
           </span>
           <img src="/icons/coins.svg" alt="coins" className="h-6 w-6" />
         </div>
