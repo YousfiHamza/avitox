@@ -1,34 +1,33 @@
+'use client';
+
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { auth } from '@clerk/nextjs/server';
+import { PlusCircle, ArrowLeft } from 'lucide-react';
 
-import CreateListingForm from '@/components/modules/create-listing-form';
-import { VerticalAds } from '@/components/modules/Ads/Vertical';
-import { HotListings } from '@/components/modules/hot-listings';
+import CreateListingForm from '@/components/modules/forms/create-listing-form';
 
-import { getUserByClerkId } from '@/lib/actions/user.actions';
+import { useUser } from '@/providers/user';
 
-export default async function NewAdvertPage() {
-  const { userId } = auth();
+export default function NewListingPage() {
+  const ctx = useUser();
 
-  if (!userId) {
-    return redirect('/auth/sign-in');
-  }
-
-  const user = await getUserByClerkId(userId);
-
-  if (!user) {
-    return redirect('/auth/sign-in');
-  }
+  if (!ctx?.user) redirect('/auth/sign-in');
 
   return (
-    <div className="container mx-auto pb-8">
-      <div className="flex w-full gap-2">
-        <CreateListingForm ownerId={user.id} />
-        <div className="flex min-h-full flex-col justify-between gap-3 self-stretch">
-          <HotListings />
-          <VerticalAds />
+    <div className="w-full flex-1 rounded-lg bg-white p-6 shadow-lg">
+      <div className="mb-10 flex items-center">
+        <Link
+          href="/dashboard/listings"
+          className="flex items-center gap-2 font-medium"
+        >
+          <ArrowLeft size={20} /> Back to your Listings
+        </Link>
+        <div className="flex flex-1 items-center justify-center gap-2 text-center font-poppins text-3xl font-bold uppercase text-green-800">
+          <PlusCircle size={25} />
+          New Listing
         </div>
       </div>
+      <CreateListingForm ownerId={ctx.user.id} />
     </div>
   );
 }

@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
-import { Trash2, Upload, PlusCircle } from 'lucide-react';
+import { Trash2, Upload, Plus } from 'lucide-react';
 
 import { CREATE_LISTING_MUTATION } from '@/graphql/queries/listing';
 
@@ -21,7 +22,7 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
-import SubmitButton from '@/components/ui/submit-button';
+import CustomButton from '@/components/ui/custom-button';
 
 import { CATEGORIESMAP, LOCATIONS } from '@/lib/constants';
 
@@ -29,14 +30,18 @@ import {
   CreateListingFormProps,
   CreateListingInput,
   FormErrors,
-} from './types';
-import { createListingSchema } from './validations';
+} from '../types';
+import { createListingSchema } from '../validations';
 
 export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
   const [createListing, { loading }] = useMutation(CREATE_LISTING_MUTATION);
   const [category, setCategory] = useState<keyof typeof CATEGORIESMAP | ''>('');
   const [images, setImages] = useState<CreateListingInput['images']>([]);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const router = useRouter();
 
   const handleCategoryChange = (value: string) => {
     setCategory(value as keyof typeof CATEGORIESMAP);
@@ -110,7 +115,13 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
         },
       });
       toast.success('Listing created successfully!');
-      // Redirect to update page
+      // Redirect to Update Page
+      router.push(`/dashboard/listings/${data.createListing.id}/update`);
+      // Empty the form in case the routing is slow
+      formRef.current?.reset();
+      setCategory('');
+      setImages([]);
+      setFormErrors({});
     } catch (err) {
       console.error('Error creating listing:', err);
       toast.error('Failed to create listing!');
@@ -118,15 +129,7 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto w-full flex-1 rounded-lg bg-white p-6 shadow-lg"
-    >
-      <h2 className="mb-6 flex items-center justify-center gap-3 text-center font-poppins text-2xl font-bold uppercase italic text-green-800">
-        <PlusCircle size={33} />
-        Create New Listing
-      </h2>
-
+    <form ref={formRef} onSubmit={handleSubmit} className="mx-auto w-full">
       <div className="mb-8">
         <Label htmlFor="title" className="mb-2 block text-lg font-semibold">
           Title
@@ -422,10 +425,20 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
       </div>
 
       <div className="text-center">
-        <SubmitButton
-          pending={loading}
-          className="w-full px-8 py-3 text-lg md:w-auto"
-        />
+        <CustomButton
+          type="submit"
+          disabled={loading}
+          className="w-full px-3 py-2 text-lg md:w-auto"
+        >
+          {loading ? (
+            'Creating...'
+          ) : (
+            <div className="flex items-center gap-2">
+              <Plus />
+              Create Listing
+            </div>
+          )}
+        </CustomButton>
       </div>
     </form>
   );

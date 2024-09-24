@@ -1,14 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import { ShoppingBasket, PlusIcon, Newspaper, Headphones } from 'lucide-react';
+import { ShoppingBasket, Newspaper, Headphones } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import CustomUserButtons from '@/components/modules/custom-user-buttons';
 
-import CustomUserButton from './signed-in';
-
-export default function Header() {
+export default async function Header() {
   return (
-    <header className="sticky top-0 z-10 flex w-full items-center border-[1px] border-b-black bg-white px-5 py-2">
+    <header className="sticky top-0 z-30 flex w-full items-center border-[1px] border-b-black bg-white px-5 py-2">
       <div className="mx-auto flex w-full max-w-7xl justify-between">
         <Link href="/" className="flex items-center">
           <img src="/icons/logo.svg" alt="Avitox's logo" className="h-10" />{' '}
@@ -27,17 +25,7 @@ export default function Header() {
             Support
           </Link>
         </nav>
-        <div className="flex items-center gap-4">
-          <CustomUserButton />
-          <Button
-            asChild
-            className="w-fit bg-rose-700 text-white shadow-transparent hover:bg-rose-600 hover:shadow-sm hover:shadow-rose-600"
-          >
-            <Link href="/dashboard/listings/new">
-              <PlusIcon className="mr-2 font-bold text-white" /> New Advert
-            </Link>
-          </Button>
-        </div>
+        <CustomUserButtons />
       </div>
     </header>
   );

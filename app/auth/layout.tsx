@@ -5,5 +5,5 @@ export default function AuthLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="mx-auto w-fit p-24">{children}</div>;
+  return <div className="mx-auto w-fit">{children}</div>;
 }
