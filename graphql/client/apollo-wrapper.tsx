@@ -9,7 +9,7 @@ import {
 } from '@apollo/experimental-nextjs-app-support';
 
 // have a function to create a client for you
-function makeClient() {
+export function getClient() {
   const httpLink = new HttpLink({
     // this needs to be an absolute url, as relative urls cannot be used in SSR
     // Your GraphQL endpoint
@@ -37,7 +37,7 @@ function makeClient() {
 // you need to create a component to wrap your app in
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
   return (
-    <ApolloNextAppProvider makeClient={makeClient}>
+    <ApolloNextAppProvider makeClient={getClient}>
       {children}
     </ApolloNextAppProvider>
   );

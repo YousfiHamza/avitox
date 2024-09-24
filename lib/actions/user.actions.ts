@@ -75,9 +75,14 @@ export async function getUserByClerkId(
 
     if (!user) throw new Error('User not found: getUserById');
 
+    revalidatePath('/', 'layout');
+
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
-    handleError(error);
+    console.error(error);
+
+    revalidatePath('/', 'layout');
+
     return null;
   }
 }

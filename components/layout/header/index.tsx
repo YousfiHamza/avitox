@@ -4,7 +4,7 @@ import { ShoppingBasket, Newspaper, Headphones } from 'lucide-react';
 
 import CustomUserButtons from '@/components/modules/custom-user-buttons';
 
-export default async function Header() {
+export default async function Header({ user }: any) {
   return (
     <header className="sticky top-0 z-30 flex w-full items-center border-[1px] border-b-black bg-white px-5 py-2">
       <div className="mx-auto flex w-full max-w-7xl justify-between">
@@ -25,7 +25,7 @@ export default async function Header() {
             Support
           </Link>
         </nav>
-        <CustomUserButtons />
+        <CustomUserButtons user={user} />
       </div>
     </header>
   );

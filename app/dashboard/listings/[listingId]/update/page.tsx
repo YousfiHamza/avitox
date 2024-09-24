@@ -6,12 +6,16 @@ import UpdateListingForm from '@/components/modules/forms/update-listing-form';
 
 import { getClient } from '@/graphql/server/helpers/client';
 import { GET_LISTING_BY_ID } from '@/graphql/queries/listing';
+import { auth } from '@clerk/nextjs/server';
+import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 export default async function UpdateListingPage({
   params,
 }: {
   params: { listingId: string };
 }) {
+  const { userId } = auth();
+
   const listingId = parseInt(params.listingId, 10);
 
   // Fetch the listing data using Apollo Client
@@ -20,14 +24,14 @@ export default async function UpdateListingPage({
     variables: { id: listingId },
   });
 
+  const user = await getUserByClerkId(userId);
+
   const listing = data?.listing;
 
-  if (error || !data.listing) {
+  if (error || !listing || !user || listing.owner.id !== user.id) {
     console.error('Error fetching listing:', error);
     redirect('/dashboard/listings');
   }
-
-  // TO-DO: Check if The user is the owner of the listing
 
   return (
     <div className="w-full flex-1 rounded-lg bg-white p-6 shadow-lg">

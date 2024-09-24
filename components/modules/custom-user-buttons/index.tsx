@@ -7,11 +7,7 @@ import { Button } from '@/components/ui/button';
 
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 
-export default async function CustomUserButtons() {
-  const { userId } = auth();
-
-  const user = await getUserByClerkId(userId);
-
+export default async function CustomUserButtons({ user }: any) {
   return user ? (
     <div className="flex items-center gap-6">
       <Link href="/dashboard/messages" className="relative">
