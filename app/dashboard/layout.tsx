@@ -24,7 +24,7 @@ export default async function DashboardLayout({
   const user = await getUserByClerkId(userId);
 
   if (!user) {
-    return redirect('/auth/sign-in');
+    return redirect('/markets');
   }
 
   return (
