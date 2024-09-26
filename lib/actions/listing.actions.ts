@@ -27,7 +27,8 @@ export async function getListings(filters: any): Promise<ListingWithOwner[]> {
     });
 
     return data.searchListings.map((listing: ListingWithOwner) => {
-      if (listing) return { ...listing, images: JSON.parse(listing.images) };
+      if (listing)
+        return { ...listing, images: JSON.parse(listing.images as string) };
     });
   } catch (error) {
     console.error('Error fetching listings:', error);
