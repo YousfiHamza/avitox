@@ -1,13 +1,19 @@
+import { revalidatePath } from 'next/cache';
 import { PutObjectCommand, DeleteObjectsCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 
-import { CreateListingInput, UpdateListingInput } from '@/graphql/types';
+import {
+  CreateListingInput,
+  Listing,
+  ListingFilterInput,
+  UpdateListingInput,
+} from '@/graphql/types';
 import s3Client from '@/lib/aws/s3';
 import {
   IndexListing,
   deleteListingFromOpenSearch,
 } from '@/lib/aws/open-search';
-import { revalidatePath } from 'next/cache';
+import openSearchClient from '@/lib/aws/open-search/client';
 
 export const handleCreateListing = async (data: CreateListingInput) => {
   const { images, ...rest } = data;
@@ -401,6 +407,34 @@ export const handleBoostListing = async (
   }
 };
 
+export const handleQueryFilteredListings = async (
+  filters: ListingFilterInput,
+) => {
+  const from = 0;
+  const size = 20;
+
+  // Construct the OpenSearch query based on filters
+  const searchParams = constructOpenSearchQuery(filters, from, size);
+
+  try {
+    const response = await openSearchClient.search(searchParams);
+
+    const hits = response.body.hits.hits;
+
+    // Map OpenSearch results to Listing objects
+    const listings = hits.map((hit: any) => ({
+      ...hit._source,
+      score: hit._score,
+      createdAt: new Date(hit._source.createdAt),
+    }));
+
+    return listings;
+  } catch (error) {
+    console.error('Error searching listings:', error);
+    throw new Error('Failed to fetch listings');
+  }
+};
+
 // Helper function to delete images from S3 using URLs
 const deleteImagesFromS3 = async (imageUrls: string[]) => {
   const imageKeys = imageUrls.map(url => {
@@ -424,4 +458,68 @@ const deleteImagesFromS3ByKeys = async (imageKeys: string[]) => {
   };
 
   await s3Client.send(new DeleteObjectsCommand(deleteParams));
+};
+
+const constructOpenSearchQuery = (
+  filters: ListingFilterInput,
+  from: number,
+  size: number,
+) => {
+  const must: any[] = [];
+  const should: any[] = [];
+  const filter: any[] = [];
+
+  if (filters.category) {
+    filter.push({ match: { category: filters.category } });
+  }
+
+  if (filters.sex) {
+    filter.push({ match: { sex: filters.sex } });
+  }
+
+  if (filters.location) {
+    filter.push({ match: { location: filters.location } });
+  }
+
+  if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+    const priceRange: any = {};
+    if (filters.minPrice !== undefined) priceRange.gte = filters.minPrice;
+    if (filters.maxPrice !== undefined) priceRange.lte = filters.maxPrice;
+    filter.push({ range: { price: priceRange } });
+  }
+
+  if (filters.keywords) {
+    should.push({
+      multi_match: {
+        query: filters.keywords,
+        fields: ['title^2', 'description'],
+        fuzziness: 'AUTO',
+      },
+    });
+  }
+
+  const query: any = {
+    bool: {
+      must,
+      filter,
+      should,
+      minimum_should_match: should.length > 0 ? 1 : 0,
+    },
+  };
+
+  const searchParams = {
+    index: 'listings',
+    body: {
+      from,
+      size,
+      query,
+      sort: [
+        { _score: { order: 'desc' } },
+        { boosted: { order: 'desc' } },
+        { createdAt: { order: 'desc' } },
+      ],
+    },
+  };
+
+  return searchParams;
 };

@@ -1,5 +1,7 @@
-import Header from '@/components/layout/header';
+'use client';
+
+import { redirect } from 'next/navigation';
 
 export default function HomePage() {
-  return <div>Hello from avitox</div>;
+  return redirect('/market');
 }

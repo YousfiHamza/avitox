@@ -68,3 +68,28 @@ export const HANDLE_BOOST_MUTATION = gql`
     }
   }
 `;
+
+export const SEARCH_LISTINGS_QUERY = gql`
+  query searchListings($filters: ListingFilterInput) {
+    searchListings(filters: $filters) {
+      id
+      title
+      description
+      price
+      images
+      boosted
+      location
+      owner {
+        id
+        username
+        photo
+      }
+      sex
+      age
+      ageUnit
+      category
+      subCategory
+      createdAt
+    }
+  }
+`;

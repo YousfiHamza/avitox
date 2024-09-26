@@ -112,7 +112,7 @@ export default function ListingsList({ user, inDashboard }: Props) {
       router.refresh();
     } catch (err) {
       console.error('Error Client Boost listing:', err);
-      toast.error('Failed to update listing!');
+      toast.error('Failed to boost listing!');
     }
   };
 

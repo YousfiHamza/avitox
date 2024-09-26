@@ -2,8 +2,6 @@ import { redirect } from 'next/navigation';
 
 import { getClient } from '@/graphql/server/helpers/client';
 import { GET_LISTING_BY_ID } from '@/graphql/queries/listing';
-import { auth } from '@clerk/nextjs/server';
-import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 export default async function SingleListingPage({
   params,

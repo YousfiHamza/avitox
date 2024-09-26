@@ -20,3 +20,19 @@ declare type SearchParamProps = {
   params: { id: string; type: TransformationTypeKey };
   searchParams: { [key: string]: string | string[] | undefined };
 };
+
+type BuyCoinsParams = {
+  plan: string;
+  coins: number;
+  amount: number;
+  buyerId: string;
+};
+
+declare type CreateCoinsTransactionParams = {
+  stripeId: string;
+  amount: number;
+  coins: number;
+  plan: string;
+  buyerId: string;
+  createdAt: Date;
+};

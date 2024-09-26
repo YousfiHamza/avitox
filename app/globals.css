@@ -71,6 +71,13 @@
   .nav-link {
     @apply flex text-nowrap text-gray-500 transition-all ease-in-out hover:scale-105 hover:text-black;
   }
+
+  .credits-list {
+    @apply mt-11 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-9 xl:grid-cols-3;
+  }
+  .credits-item {
+    @apply flex min-h-full w-full flex-col justify-between bg-slate-100 p-4 shadow-lg shadow-purple-200/50 dark:bg-slate-100;
+  }
 }
 
 .cl-avatarBox,

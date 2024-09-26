@@ -48,8 +48,6 @@ export const IndexListing = async (listing: Listing) => {
 
   // Refresh the index to make the document searchable immediately
   await opensearchClient.indices.refresh({ index: indexName });
-
-  console.log('Listing indexed successfully:', response.body);
 };
 
 // Helper function to delete a listing from OpenSearch

@@ -30,7 +30,7 @@ import clsx from 'clsx';
 
 type ListingCardProps = {
   listing: Listing;
-  user: UserWithListings;
+  user: any;
   inDashboard?: boolean;
   handleDelete?: (listingId: number) => void;
   handleBoost?: (listing: Listing) => void;
@@ -51,7 +51,7 @@ export default function ListingCard({
     <Card
       key={listing.id}
       className={clsx(
-        'relative flex w-full overflow-hidden border-gray-300 shadow-xl',
+        'relative flex w-full overflow-hidden border-gray-300 shadow-md shadow-black/50 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:translate-x-1 hover:shadow-2xl hover:shadow-black',
         {
           'border-2 border-yellow-500 bg-yellow-400/40': listing.boosted,
         },
@@ -141,6 +141,7 @@ export default function ListingCard({
                 <Trash2 className="h-4 w-4" />
               </Button>
             )}
+            {!inDashboard && listing.boosted && <span>⚡</span>}
           </div>
         </CardHeader>
 
@@ -172,6 +173,10 @@ export default function ListingCard({
               <span className="font-medium">
                 {listing.sex.toLocaleLowerCase()}
               </span>
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="font-semibold">📍</span>
+              <span className="font-medium">{listing.location}</span>
             </span>
           </div>
           <p className="line-clamp-2 max-w-full truncate text-wrap">

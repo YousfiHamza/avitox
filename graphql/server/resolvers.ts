@@ -9,12 +9,14 @@ import {
   CreateListingInput,
   CreateTransactionInput,
   UpdateListingInput,
+  ListingFilterInput,
 } from '../types';
 
 import {
   handleBoostListing,
   handleCreateListing,
   handleDeleteListing,
+  handleQueryFilteredListings,
   handleUpdateListing,
 } from './helpers/listing';
 
@@ -89,6 +91,16 @@ export const resolvers = {
       return await prisma.transaction.findUnique({
         where: { id },
       });
+    },
+    searchListings: async (
+      _: any,
+      {
+        filters,
+      }: {
+        filters: ListingFilterInput;
+      },
+    ): Promise<Listing[]> => {
+      return handleQueryFilteredListings(filters);
     },
   },
 

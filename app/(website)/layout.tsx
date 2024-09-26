@@ -19,7 +19,7 @@ export default async function WebsiteLayout({
       <Header user={user} />
       <main className="mx-auto w-full max-w-screen-xl flex-1">
         <HorizontalAds />
-        <div className="mx-auto w-fit">{children}</div>
+        <div className="mx-auto w-full">{children}</div>
       </main>
     </>
   );

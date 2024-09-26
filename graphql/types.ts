@@ -84,3 +84,19 @@ export type BoostListingInput = {
   userId: number;
   boostValue: boolean;
 };
+
+export type ListingFilterInput = {
+  category?: string;
+  sex?: string;
+  location?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minAge?: number;
+  maxAge?: number;
+  keywords?: string;
+};
+
+export type PaginationInput = {
+  page: number;
+  limit: number;
+};

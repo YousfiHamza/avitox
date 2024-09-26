@@ -114,6 +114,22 @@ export const typeDefs = gql`
     boostValue: Boolean!
   }
 
+  input ListingFilterInput {
+    category: CategoryEnum
+    sex: SexEnum
+    minAge: Int
+    maxAge: Int
+    keywords: String
+    location: String
+    minPrice: Float
+    maxPrice: Float
+  }
+
+  input PaginationInput {
+    page: Int!
+    limit: Int!
+  }
+
   # Main types
   type User {
     id: Int!
@@ -170,6 +186,7 @@ export const typeDefs = gql`
     listing(id: Int!): Listing # Find one listing by ID
     transactions: [Transaction!]! # Get all transactions
     transaction(id: Int!): Transaction # Find one transaction by ID
+    searchListings(filters: ListingFilterInput): [Listing!]! # Search listings based on filters
   }
 
   type Mutation {
