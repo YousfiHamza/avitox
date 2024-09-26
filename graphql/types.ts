@@ -25,16 +25,18 @@ export interface Listing {
   title: string;
   description: string;
   price: number;
-  images: any; // Adjust the type based on your JSON structure
+  images: any;
   location: string;
   boosted: boolean;
-  category: CategoryEnum; // or CategoryEnum if you have a specific type
-  subCategory: SubCategoryEnum; // or SubCategoryEnum if you have a specific type
-  sex: SexEnum; // or SexEnum if you have a specific type
+  category: CategoryEnum;
+  subCategory: SubCategoryEnum;
+  sex: SexEnum;
   age: number;
   ageUnit: AgeUnitEnum;
-  status: ListingStatusEnum; // or ListingStatusEnum if you have a specific type
+  status: ListingStatusEnum;
   ownerId: number;
+  createdAt: Date;
+  indexingFailed: boolean;
 }
 
 export interface Transaction {
@@ -71,3 +73,14 @@ export interface CreateTransactionInput {
   price: number;
   status: TransactionStatusEnum; // Ensure status is included
 }
+
+export type UpdateListingInput = CreateListingInput & {
+  id: number;
+  indexingFailed: boolean;
+};
+
+export type BoostListingInput = {
+  listingId: number;
+  userId: number;
+  boostValue: boolean;
+};

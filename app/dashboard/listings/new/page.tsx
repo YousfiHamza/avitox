@@ -13,6 +13,8 @@ export default function NewListingPage() {
 
   if (!ctx?.user) redirect('/auth/sign-in');
 
+  if (ctx.user.listings.length >= 4) redirect('/dashboard/store');
+
   return (
     <div className="w-full flex-1 rounded-lg bg-white p-6 shadow-lg">
       <div className="mb-10 flex items-center">

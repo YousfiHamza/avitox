@@ -43,6 +43,7 @@ model Listing {
   age         Int
   ageUnit     AgeUnitEnum
   status      ListingStatusEnum
+  indexingFailed Boolean @default(false)
   owner       User      @relation(fields: [ownerId], references: [id])
   ownerId     Int
   createdAt   DateTime  @default(now())

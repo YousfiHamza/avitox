@@ -35,7 +35,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
     res.status(200).json({ message: 'Listings updated successfully' });
   } catch (error) {
-    console.error('Error updating listings:', error);
+    console.error('Error API updating listings:', error);
     res.status(500).json({ error: 'Failed to update listings' });
   }
 }

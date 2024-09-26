@@ -23,6 +23,8 @@ export const GET_LISTING_BY_ID = gql`
       sex
       age
       ageUnit
+      boosted
+      status
       owner {
         id
       }
@@ -31,8 +33,8 @@ export const GET_LISTING_BY_ID = gql`
 `;
 
 export const UPDATE_LISTING_MUTATION = gql`
-  mutation UpdateListing($input: UpdateListingInput!) {
-    updateListing(input: $input) {
+  mutation updateListing($input: UpdateListingInput!) {
+    updateListing(data: $input) {
       id
       title
       description
@@ -44,14 +46,25 @@ export const UPDATE_LISTING_MUTATION = gql`
       sex
       age
       ageUnit
+      boosted
+      createdAt
     }
   }
 `;
 
 export const DELETE_LISTING_MUTATION = gql`
-  mutation DeleteListing($id: ID!) {
-    deleteListing(id: $id) {
+  mutation deleteListing($listingId: Int!, $userId: Int!) {
+    deleteListing(listingId: $listingId, userId: $userId) {
       id
+    }
+  }
+`;
+
+export const HANDLE_BOOST_MUTATION = gql`
+  mutation handleBoostListing($data: BoostListingInput!) {
+    handleBoostListing(data: $data) {
+      id
+      boosted
     }
   }
 `;

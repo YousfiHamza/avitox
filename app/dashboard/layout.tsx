@@ -32,7 +32,7 @@ export default async function DashboardLayout({
       <Header user={user} />
       <main className="mx-auto w-full max-w-screen-xl flex-1">
         <HorizontalAds />
-        <div className="container mx-auto pb-8">
+        <div className="mx-auto w-full pb-8">
           <div className="flex w-full gap-2">
             <div className="flex flex-1 flex-col gap-2">
               <DashboardTabs />

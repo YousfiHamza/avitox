@@ -14,7 +14,10 @@ export type FormErrors = {
 };
 
 export type UpdateListingInput = z.infer<typeof updateListingSchema> & {
+  id: number;
   images: any;
+  boosted: boolean;
+  indexingFailed: boolean;
   owner: {
     id: number;
   };
@@ -22,4 +25,5 @@ export type UpdateListingInput = z.infer<typeof updateListingSchema> & {
 
 export interface UpdateListingFormProps {
   listing: UpdateListingInput;
+  userId: number;
 }

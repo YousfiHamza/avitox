@@ -13,7 +13,7 @@ export async function HotListings() {
   // }
 
   return (
-    <div className="min-h-[333px] overflow-hidden rounded-sm border-[1px] bg-slate-100 p-2">
+    <div className="min-h-[333px] w-[333px] overflow-hidden rounded-sm border-[1px] bg-slate-100 p-2">
       <h5 className="px-4 text-xl font-bold leading-5 md:text-2xl md:leading-8 lg:text-3xl">
         🔥 Hot Listings
       </h5>

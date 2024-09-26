@@ -5,13 +5,15 @@ import { useState, FormEvent } from 'react';
 import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
-import { Trash2, Pencil } from 'lucide-react';
+import { Trash2, Pencil, Upload } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import {
   DELETE_LISTING_MUTATION,
   UPDATE_LISTING_MUTATION,
 } from '@/graphql/queries/listing';
 
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -29,9 +31,11 @@ import { CATEGORIESMAP, LOCATIONS } from '@/lib/constants';
 
 import { UpdateListingFormProps, FormErrors } from '../types';
 import { updateListingSchema } from '../validations';
-import { useRouter } from 'next/navigation';
 
-export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
+export default function UpdateListingForm({
+  listing,
+  userId,
+}: UpdateListingFormProps) {
   // State
   const [canUpdate, setCanUpdate] = useState(false);
   const [updateListing, { loading }] = useMutation(UPDATE_LISTING_MUTATION);
@@ -41,6 +45,14 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
   const [category, setCategory] = useState<keyof typeof CATEGORIESMAP | ''>(
     listing.category || '',
   );
+
+  const [existingImages, setExistingImages] = useState<string[]>(
+    JSON.parse(listing.images) || [],
+  );
+  const [newImages, setNewImages] = useState<
+    { dataUrl: string; name: string }[]
+  >([]);
+
   const [formData, setFormData] = useState({
     title: listing.title || '',
     description: listing.description || '',
@@ -77,16 +89,54 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
     if (!canUpdate) setCanUpdate(true);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const newImagesArray = await Promise.all(
+        Array.from(files).map(async file => ({
+          dataUrl: await readFileAsDataURL(file),
+          name: file.name,
+        })),
+      );
+      setNewImages(prev => [...prev, ...newImagesArray]);
+      if (!canUpdate) setCanUpdate(true);
+    }
+  };
+
+  const readFileAsDataURL = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeExistingImage = (index: number) => {
+    setExistingImages(prev => prev.filter((_, i) => i !== index));
+    if (!canUpdate) setCanUpdate(true);
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+    if (!canUpdate) setCanUpdate(true);
+  };
+
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormErrors({});
 
+    const combinedImages = [...existingImages, ...newImages];
+
     const listingData = {
-      ...listing,
       ...formData,
+      id: listing.id,
+      images: combinedImages,
       price: Number(formData.price),
       age: Number(formData.age),
-      status: 'ACTIVE',
+      status: listing.status,
+      boosted: listing.boosted,
+      ownerId: listing.owner.id,
     };
 
     const validationResult = updateListingSchema.safeParse(listingData);
@@ -100,16 +150,14 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
     try {
       const { data } = await updateListing({
         variables: {
-          input: {
-            ...listingData,
-            ownerId: listing.owner.id,
-          },
+          input: listingData,
         },
       });
+
       toast.success('Listing updated successfully!');
       setCanUpdate(false);
     } catch (err) {
-      console.error('Error updating listing:', err);
+      console.error('Error Client updating listing:', err);
       toast.error('Failed to update listing!');
     }
   };
@@ -118,7 +166,8 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
     try {
       await deleteListing({
         variables: {
-          id: listing.id,
+          listingId: listing.id,
+          userId: userId,
         },
       });
       toast.success('Listing deleted successfully!');
@@ -132,7 +181,7 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
   // Checks & Effects
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full">
+    <form onSubmit={handleUpdate} className="mx-auto w-full">
       <div className="mb-8">
         <Label htmlFor="title" className="mb-2 block text-lg font-semibold">
           Title
@@ -177,7 +226,7 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
         )}
       </div>
 
-      {listing.images && (
+      {/* {listing.images && (
         <div className="mb-8">
           <Label htmlFor="images" className="mb-2 block text-lg font-semibold">
             Images
@@ -198,7 +247,94 @@ export default function UpdateListingForm({ listing }: UpdateListingFormProps) {
             ))}
           </div>
         </div>
-      )}
+      )} */}
+
+      <div className="mb-8">
+        <Label htmlFor="images" className="mb-2 block text-lg font-semibold">
+          Images
+        </Label>
+        <div className="flex w-full items-center justify-center">
+          <label
+            htmlFor="images"
+            className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed bg-gray-50 hover:bg-gray-100"
+          >
+            <div className="flex flex-col items-center justify-center pb-6 pt-5">
+              <Upload className="mb-3 h-10 w-10 text-gray-400" />
+              <p className="mb-2 text-sm text-gray-500">
+                <span className="font-semibold">Click to upload</span>
+              </p>
+              <p className="text-s text-gray-500">
+                PNG, JPG or GIF ( MAX. 800x400px )
+              </p>
+              <p className="mt-3 text-xs text-gray-500">1 to 5 Images</p>
+            </div>
+            <Input
+              type="file"
+              id="images"
+              name="images"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-4">
+          {/* Existing Images */}
+          {existingImages.map((imageUrl, index) => (
+            <Card key={index} className="relative">
+              <CardContent className="relative h-36 w-36 p-0">
+                <Image
+                  height={144}
+                  width={144}
+                  src={imageUrl}
+                  alt={`Image ${index}`}
+                  className="h-full w-full rounded object-cover"
+                />
+                <Button
+                  type="button"
+                  onClick={() => removeExistingImage(index)}
+                  variant="destructive"
+                  size="icon"
+                  className="absolute right-1 top-1 h-6 w-6 hover:brightness-150"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+          {/* New Images */}
+          {newImages.map((image, index) => (
+            <Card key={index} className="relative">
+              <CardContent className="relative h-36 w-36 p-0">
+                <Image
+                  height={144}
+                  width={144}
+                  src={image.dataUrl}
+                  alt={image.name}
+                  className="h-full w-full rounded object-cover"
+                />
+                <Button
+                  type="button"
+                  onClick={() => removeNewImage(index)}
+                  variant="destructive"
+                  size="icon"
+                  className="absolute right-1 top-1 h-6 w-6 hover:brightness-150"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {formErrors.images && (
+          <p className="mt-1 py-2 text-sm font-medium text-destructive">
+            You need to upload 1 to 5 images maximum.
+          </p>
+        )}
+      </div>
 
       <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
         <div>

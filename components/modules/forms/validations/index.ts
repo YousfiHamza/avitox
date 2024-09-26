@@ -2,17 +2,25 @@ import { z } from 'zod';
 
 import { CATEGORIESMAP } from '@/lib/constants';
 
-export const imageSchema = z.object({
+export const createImageSchema = z.object({
   dataUrl: z.string().url(),
   name: z.string(),
 });
+
+export const updateImageSchema = z.union([
+  z.object({
+    dataUrl: z.string().url(),
+    name: z.string(),
+  }),
+  z.string(),
+]);
 
 export const createListingSchema = z
   .object({
     title: z.string().min(3).max(100),
     description: z.string().min(10).max(1000),
     price: z.number().positive(),
-    images: z.array(imageSchema).min(1).max(5),
+    images: z.array(createImageSchema).min(1).max(5),
     location: z.enum([
       'Casablanca',
       'Rabat',
@@ -49,10 +57,12 @@ export const createListingSchema = z
   });
 
 export const updateListingSchema = z.object({
-  id: z.string(),
+  id: z.number(),
+  ownerId: z.number(),
   title: z.string().min(3).max(100),
   description: z.string().min(10).max(1000),
   price: z.number().positive(),
+  images: z.array(updateImageSchema).min(1).max(5),
   location: z.enum([
     'Casablanca',
     'Rabat',

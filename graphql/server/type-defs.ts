@@ -49,6 +49,12 @@ export const typeDefs = gql`
     YEAR
   }
 
+  input ImageInput {
+    url: String # Existing image URL
+    dataUrl: String # New image to upload (base64 format)
+    name: String # Optional name for new images
+  }
+
   # Input types for mutations
   input CreateUserInput {
     clerkId: String!
@@ -89,7 +95,7 @@ export const typeDefs = gql`
     title: String
     description: String
     price: Float
-    images: Json
+    images: Json!
     location: String
     category: CategoryEnum
     subCategory: SubCategoryEnum
@@ -98,6 +104,14 @@ export const typeDefs = gql`
     ageUnit: AgeUnitEnum
     boosted: Boolean
     status: ListingStatusEnum
+    ownerId: Int!
+    indexingFailed: Boolean
+  }
+
+  input BoostListingInput {
+    listingId: Int!
+    userId: Int!
+    boostValue: Boolean!
   }
 
   # Main types
@@ -132,6 +146,8 @@ export const typeDefs = gql`
     ageUnit: AgeUnitEnum!
     status: ListingStatusEnum!
     owner: User! # User who owns the listing
+    createdAt: DateTime!
+    indexingFailed: Boolean!
   }
 
   type Transaction {
@@ -163,7 +179,8 @@ export const typeDefs = gql`
 
     createListing(data: CreateListingInput!): Listing!
     updateListing(data: UpdateListingInput!): Listing!
-    deleteListing(id: Int!): Listing!
+    deleteListing(listingId: Int!, userId: Int!): Listing!
+    handleBoostListing(data: BoostListingInput!): Listing!
 
     createTransaction(
       buyerId: Int!

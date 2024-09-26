@@ -116,7 +116,8 @@ export default function CreateListingForm({ ownerId }: CreateListingFormProps) {
       });
       toast.success('Listing created successfully!');
       // Redirect to Update Page
-      router.push(`/dashboard/listings/${data.createListing.id}/update`);
+      router.push('/dashboard/listings');
+      router.refresh();
       // Empty the form in case the routing is slow
       formRef.current?.reset();
       setCategory('');

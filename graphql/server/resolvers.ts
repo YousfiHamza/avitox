@@ -8,9 +8,15 @@ import {
   Transaction,
   CreateListingInput,
   CreateTransactionInput,
+  UpdateListingInput,
 } from '../types';
 
-import { handleCreateListing } from './helpers/listing';
+import {
+  handleBoostListing,
+  handleCreateListing,
+  handleDeleteListing,
+  handleUpdateListing,
+} from './helpers/listing';
 
 const DateTime = new GraphQLScalarType({
   name: 'DateTime',
@@ -114,18 +120,26 @@ export const resolvers = {
 
     updateListing: async (
       _: any,
-      { data }: { data: Listing },
-    ): Promise<Listing> => {
-      const { id, ...updateData } = data; // Extract ID for the update
-      return await prisma.listing.update({
-        where: { id },
-        data: updateData,
-      });
+      { data }: { data: UpdateListingInput },
+    ): Promise<Listing | undefined> => {
+      return handleUpdateListing(data);
     },
-    deleteListing: async (_: any, { id }: { id: number }): Promise<Listing> => {
-      return await prisma.listing.delete({
-        where: { id },
-      });
+
+    deleteListing: async (
+      _: any,
+      { listingId, userId }: { listingId: number; userId: number },
+    ): Promise<Listing | null> => {
+      return handleDeleteListing(listingId, userId);
+    },
+
+    handleBoostListing: async (
+      _: any,
+      {
+        data,
+      }: { data: { listingId: number; userId: number; boostValue: boolean } },
+    ): Promise<Listing | undefined> => {
+      console.log('IN handleboostListing RESOLVER');
+      return handleBoostListing(data.listingId, data.userId, data.boostValue);
     },
 
     createTransaction: async (
