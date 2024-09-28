@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Building } from 'lucide-react';
+import { Building, Store, CircleUser } from 'lucide-react';
 
 import { PLANS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,25 @@ import Checkout from '@/components/ui/checkout';
 import { getUserByClerkId } from '@/lib/actions/user.actions';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+
+const Icon = ({
+  name,
+  className = '',
+}: {
+  name: string;
+  className?: string;
+}) => {
+  switch (name) {
+    case 'Free':
+      return <CircleUser className={className} size={48} />;
+    case 'Small Business':
+      return <Store className={className} size={48} />;
+    case 'Entreprise':
+      return <Building className={className} size={48} />;
+    default:
+      return null;
+  }
+};
 
 export default async function StorePage() {
   const { userId } = auth();
@@ -23,12 +42,11 @@ export default async function StorePage() {
   const displayButton = (plan: any) => {
     if (plan.name === 'Free') {
       return (
-        <Button disabled variant="outline" className="credits-btn">
+        <Button disabled variant="outline" className="mx-auto w-full">
           Free Consumable
         </Button>
       );
     } else if (plan.name === 'Small Business') {
-      console.log('plan', plan);
       return (
         <Checkout
           plan={plan.name}
@@ -37,10 +55,13 @@ export default async function StorePage() {
           buyerId={user.id.toString()}
         />
       );
-    } else if (plan.name === 'Enterprise') {
+    } else if (plan.name === 'Entreprise') {
       return (
         <Link href="/support">
-          <Button variant="outline" className="credits-btn">
+          <Button
+            variant="outline"
+            className="mx-auto w-full bg-black text-white hover:bg-gray-600 hover:text-white"
+          >
             Contact Sales
           </Button>
         </Link>
@@ -51,7 +72,7 @@ export default async function StorePage() {
   return (
     <div className="mx-auto flex h-full w-full flex-col items-center justify-center gap-10 rounded-lg bg-white">
       <h1 className="font-poppins text-5xl font-bold drop-shadow-2xl">
-        Store Page
+        🤩 Choose A Plan 🤩
       </h1>
       <section>
         <ul className="credits-list">
@@ -67,11 +88,14 @@ export default async function StorePage() {
                 className={`credits-item rounded-[16px] ${plan.isPopular ? 'border-4 border-red-500 md:rounded-tr-none' : 'border-2 border-purple-200/20'}`}
               >
                 <div className="">
-                  <div className="flex-center flex-col gap-1">
-                    <Image src={plan.icon} alt="check" width={50} height={50} />
-                    <p className="p-20-semibold text-purple-500">{plan.name}</p>
-                    <p className="h1-semibold text-dark-600">${plan.price}</p>
-                    <p className="p-16-regular">{plan.credits} Credits</p>
+                  <div className="w-full flex-col items-center gap-1 text-center">
+                    <Icon name={plan.name} className="mx-auto text-blue-800" />
+                    {/* <Image src={plan.icon} alt="check" width={50} height={50} /> */}
+                    <p className="text-2xl font-bold text-blue-500">
+                      {plan.name}
+                    </p>
+                    <p className="text-dark-600 font-semibold">${plan.price}</p>
+                    <p className="p-16-regular">{plan.credits} Coins</p>
                   </div>
                   {/* Inclusions */}
                   <ul className="flex flex-col gap-4 py-8">

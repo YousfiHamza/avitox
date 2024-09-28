@@ -13,11 +13,23 @@ export async function HotListings() {
   // }
 
   return (
-    <div className="min-h-[333px] w-[333px] overflow-hidden rounded-sm border-[1px] bg-slate-100 p-2">
-      <h5 className="px-4 text-xl font-bold leading-5 md:text-2xl md:leading-8 lg:text-3xl">
+    <div className="min-h-[333px] w-[234px] overflow-hidden rounded-sm border-[1px] bg-slate-100 p-2">
+      <h5 className="px-4 text-xl font-bold leading-5 md:text-2xl md:leading-8 lg:text-2xl">
         🔥 Hot Listings
       </h5>
-      <ul className="flex flex-col gap-2">
+      <ul className="mt-4 flex flex-col gap-2">
+        <li className="relative h-[100px] w-full rounded-sm bg-white p-1 transition-all duration-300 ease-in-out hover:bg-slate-400/50">
+          <div className="h-full w-[33%] rounded-md bg-slate-300"></div>
+          <div className="absolute bottom-1 right-1 h-[25%] w-[25%] rounded-sm bg-slate-500"></div>
+        </li>
+        <li className="relative h-[100px] w-full rounded-sm bg-white p-1 transition-all duration-300 ease-in-out hover:bg-slate-400/50">
+          <div className="h-full w-[33%] rounded-md bg-slate-300"></div>
+          <div className="absolute bottom-1 right-1 h-[25%] w-[25%] rounded-sm bg-slate-500"></div>
+        </li>
+        <li className="relative h-[100px] w-full rounded-sm bg-white p-1 transition-all duration-300 ease-in-out hover:bg-slate-400/50">
+          <div className="h-full w-[33%] rounded-md bg-slate-300"></div>
+          <div className="absolute bottom-1 right-1 h-[25%] w-[25%] rounded-sm bg-slate-500"></div>
+        </li>
         {/* {
           // TODO: Add Type Post remove Any
           latestPosts.map((post: any) => (
