@@ -98,8 +98,6 @@ export async function checkoutCoins(transaction: BuyCoinsParams) {
 
   const amount = transaction.amount * 100;
 
-  console.log('transaction', transaction);
-
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
