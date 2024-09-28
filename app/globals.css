@@ -73,7 +73,7 @@
   }
 
   .credits-list {
-    @apply mt-11 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-9 xl:grid-cols-3;
+    @apply mt-11 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4 xl:grid-cols-3;
   }
   .credits-item {
     @apply flex min-h-full w-full flex-col justify-between bg-slate-100 p-4 shadow-lg shadow-purple-200/50 dark:bg-slate-100;

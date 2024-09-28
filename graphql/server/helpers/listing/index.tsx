@@ -104,6 +104,7 @@ export const handleCreateListing = async (data: CreateListingInput) => {
 
     revalidatePath('/dashboard/listings', 'layout');
     revalidatePath('/market', 'layout');
+    revalidatePath('/', 'layout');
 
     // Return the successfully created listing
     return listing;
@@ -240,6 +241,7 @@ export const handleUpdateListing = async (data: UpdateListingInput) => {
 
     revalidatePath('/dashboard/listings', 'layout');
     revalidatePath('/market', 'layout');
+    revalidatePath('/', 'layout');
 
     // Return the successfully updated listing
     return updatedListing;
@@ -320,6 +322,7 @@ export const handleDeleteListing = async (
 
   revalidatePath('/dashboard/listings', 'layout');
   revalidatePath('/market', 'layout');
+  revalidatePath('/', 'layout');
 
   return listing;
 };
@@ -399,6 +402,7 @@ export const handleBoostListing = async (
 
     revalidatePath('/dashboard/listings', 'layout');
     revalidatePath('/market', 'layout');
+    revalidatePath('/', 'layout');
 
     return result;
   } catch (error) {

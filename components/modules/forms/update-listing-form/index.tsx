@@ -153,7 +153,8 @@ export default function UpdateListingForm({
           input: listingData,
         },
       });
-
+      router.push('/dashboard/listings');
+      router.refresh();
       toast.success('Listing updated successfully!');
       setCanUpdate(false);
     } catch (err) {
@@ -172,6 +173,7 @@ export default function UpdateListingForm({
       });
       toast.success('Listing deleted successfully!');
       router.push('/dashboard/listings');
+      router.refresh();
     } catch (err) {
       console.error('Error deleting listing:', err);
       toast.error('Failed to delete listing!');

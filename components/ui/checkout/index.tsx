@@ -61,7 +61,7 @@ const Checkout = ({
           disabled={loading}
           type="submit"
           role="link"
-          className="w-full rounded-full bg-cover text-slate-100 hover:opacity-75 disabled:cursor-not-allowed"
+          className="w-full bg-blue-800 bg-cover text-slate-100 hover:opacity-75 disabled:cursor-not-allowed"
         >
           Buy Now
         </Button>

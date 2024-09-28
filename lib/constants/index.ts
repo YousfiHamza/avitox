@@ -20,17 +20,17 @@ export const CATEGORIESMAP = {
 export const PLANS = [
   {
     _id: 1,
-    name: 'free',
-    icon: '/icons/coins.svg',
+    name: 'Free',
+    icon: 'person',
     price: 0,
-    credits: 20,
+    credits: 10,
     inclusions: [
       {
-        label: '20 Free Credits',
+        label: '10 Free Coins',
         isIncluded: true,
       },
       {
-        label: 'Basic Access to Services',
+        label: 'Maximum of 4 Listings',
         isIncluded: true,
       },
       {
@@ -47,16 +47,16 @@ export const PLANS = [
   {
     _id: 2,
     name: 'Small Business',
-    icon: '/icons/coins.svg',
-    price: 40,
+    icon: 'shop',
+    price: 120,
     credits: 120,
     inclusions: [
       {
-        label: '120 Credits',
+        label: 'Additional 120 Coins',
         isIncluded: true,
       },
       {
-        label: 'Full Access to Services',
+        label: 'Maximum of 33 Listings',
         isIncluded: true,
       },
       {
@@ -65,7 +65,7 @@ export const PLANS = [
       },
       {
         label: 'Priority Updates',
-        isIncluded: false,
+        isIncluded: true,
       },
     ],
     isPopular: true,
@@ -73,24 +73,24 @@ export const PLANS = [
   {
     _id: 3,
     name: 'Entreprise',
-    icon: '/icons/coins.svg',
-    price: 199,
-    credits: 2000,
+    icon: 'building',
+    price: 'Custom',
+    credits: 'Custom',
     inclusions: [
       {
-        label: '2000 Credits',
+        label: 'Coins: As Much As You Need',
         isIncluded: true,
       },
       {
-        label: 'Full Access to Services',
+        label: 'Unlimited Number of Listings',
         isIncluded: true,
       },
       {
-        label: 'Priority Customer Support',
+        label: 'Dedicated Customer Support',
         isIncluded: true,
       },
       {
-        label: 'Priority Updates',
+        label: 'Priority Updates & Beta Features',
         isIncluded: true,
       },
     ],
