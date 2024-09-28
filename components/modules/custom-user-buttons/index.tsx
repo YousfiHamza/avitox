@@ -20,7 +20,7 @@ export default async function CustomUserButtons({ user }: any) {
         <span className="text-xl font-semibold text-yellow-600">
           {user.coins}
         </span>
-        <img src="/icons/coins.svg" alt="coins" className="h-7 w-7" />
+        <img src="/icons/coins.svg" alt="coins" className="h-6 w-6" />
       </Link>
       <div className="min-h-[50px] min-w-[56px] cursor-pointer rounded-lg px-2 pt-1 transition-all ease-in-out hover:bg-slate-100">
         <UserButton />
