@@ -18,7 +18,7 @@ const Icon = ({
   className?: string;
 }) => {
   switch (name) {
-    case 'Free':
+    case 'Individual':
       return <CircleUser className={className} size={48} />;
     case 'Small Business':
       return <Store className={className} size={48} />;
@@ -40,7 +40,7 @@ export default async function StorePage() {
   }
 
   const displayButton = (plan: any) => {
-    if (plan.name === 'Free') {
+    if (plan.name === 'Individual') {
       return (
         <Button disabled variant="outline" className="mx-auto w-full">
           Free Consumable
