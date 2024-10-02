@@ -1,11 +1,8 @@
 import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
-import { auth } from '@clerk/nextjs/server';
 import { PlusIcon, User, LayoutDashboard, Mails } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-
-import { getUserByClerkId } from '@/lib/actions/user.actions';
 
 export default async function CustomUserButtons({ user }: any) {
   return user ? (
@@ -20,7 +17,7 @@ export default async function CustomUserButtons({ user }: any) {
         <span className="text-xl font-semibold text-yellow-600">
           {user.coins}
         </span>
-        <img src="/icons/coins.svg" alt="coins" className="h-6 w-6" />
+        <img src="/icons/coins.svg" alt="coins" className="h-7 w-7" />
       </Link>
       <div className="min-h-[50px] min-w-[56px] cursor-pointer rounded-lg px-2 pt-1 transition-all ease-in-out hover:bg-slate-100">
         <UserButton />
