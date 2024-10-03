@@ -20,7 +20,7 @@ export const CATEGORIESMAP = {
 export const PLANS = [
   {
     _id: 1,
-    name: 'Free',
+    name: 'Individual',
     icon: 'person',
     price: 0,
     credits: 10,
@@ -49,14 +49,14 @@ export const PLANS = [
     name: 'Small Business',
     icon: 'shop',
     price: 120,
-    credits: 120,
+    credits: 1200,
     inclusions: [
       {
-        label: 'Additional 120 Coins',
+        label: 'Additional 1200 Coins',
         isIncluded: true,
       },
       {
-        label: 'Maximum of 33 Listings',
+        label: 'Maximum of 30 Listings',
         isIncluded: true,
       },
       {

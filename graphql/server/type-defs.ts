@@ -183,6 +183,7 @@ export const typeDefs = gql`
     users: [User!]! # Get all users
     user(id: Int!): User # Find one user by ID
     listings: [Listing!]! # Get all listings
+    hotListings(userId: Int!): [Listing!]! # Get Top 3 Hot Listings
     listing(id: Int!): Listing # Find one listing by ID
     transactions: [Transaction!]! # Get all transactions
     transaction(id: Int!): Transaction # Find one transaction by ID

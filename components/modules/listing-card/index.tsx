@@ -12,8 +12,6 @@ import {
   Camera,
 } from 'lucide-react';
 
-import { useRouter } from 'next/navigation';
-
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -25,7 +23,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDateTime } from '@/lib/utils';
 import { Listing } from '@prisma/client';
-import { UserWithListings } from '@/lib/actions/user.actions';
 import clsx from 'clsx';
 
 type ListingCardProps = {
@@ -188,7 +185,6 @@ export default function ListingCard({
           <div className="flex flex-col gap-4">
             {inDashboard ? (
               <p className="text-sm font-medium italic">
-                {formatDateTime(listing.createdAt).dateDay} -{' '}
                 {formatDateTime(listing.createdAt).dateTime}
               </p>
             ) : (
@@ -200,7 +196,6 @@ export default function ListingCard({
                 <div className="flex flex-col">
                   <p className="text-xl font-medium">{user.username}</p>
                   <p className="text-sm font-medium italic">
-                    {formatDateTime(listing.createdAt).dateDay} -{' '}
                     {formatDateTime(listing.createdAt).dateTime}
                   </p>
                 </div>

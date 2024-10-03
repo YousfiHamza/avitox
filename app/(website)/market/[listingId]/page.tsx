@@ -29,6 +29,10 @@ export default async function SingleListingPage({
       <h1 className="text-center font-serif text-5xl font-bold capitalize text-slate-900">
         {listing.title}
       </h1>
+      <p className="flex text-center font-serif text-4xl text-slate-500">
+        <span className="mr-3 text-3xl">💰</span>
+        {listing.price}&apos; <span className="text-xl">MAD</span>
+      </p>
     </div>
   );
 }

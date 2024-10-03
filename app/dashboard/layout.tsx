@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
 
@@ -39,7 +41,7 @@ export default async function DashboardLayout({
               <UserProvider user={user}>{children}</UserProvider>
             </div>
             <div className="flex min-h-full flex-col justify-between gap-3 self-stretch">
-              <HotListings />
+              <HotListings userId={user.id} />
               <VerticalAds />
             </div>
           </div>

@@ -102,6 +102,22 @@ export const resolvers = {
     ): Promise<Listing[]> => {
       return handleQueryFilteredListings(filters);
     },
+    hotListings: async (
+      _: any,
+      { userId }: { userId: number },
+    ): Promise<Listing[]> => {
+      return await prisma.listing.findMany({
+        where: {
+          ownerId: {
+            not: userId,
+          },
+        },
+        take: 3,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+    },
   },
 
   Mutation: {

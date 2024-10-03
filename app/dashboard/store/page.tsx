@@ -70,7 +70,7 @@ export default async function StorePage() {
   };
 
   return (
-    <div className="mx-auto flex h-full w-full flex-col items-center justify-center gap-10 rounded-lg bg-white">
+    <div className="mx-auto flex h-full w-full flex-col items-center justify-center gap-10 rounded-lg bg-white shadow-md shadow-black/40">
       <h1 className="font-poppins text-5xl font-bold drop-shadow-2xl">
         🤩 Choose A Plan 🤩
       </h1>

@@ -21,7 +21,7 @@ export default async function ListingsPage() {
   }
 
   return (
-    <div className="mx-auto flex w-full flex-1 flex-col items-center gap-6 rounded-lg bg-white p-6">
+    <div className="mx-auto flex w-full flex-1 flex-col items-center gap-6 rounded-lg bg-white p-6 shadow-md shadow-black/40">
       <div className="mb-4 flex w-full items-center justify-between">
         <span className="font-serif text-4xl font-semibold capitalize text-blue-800">
           Welcome {user.username} 👋🏼

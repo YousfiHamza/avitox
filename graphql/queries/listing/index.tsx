@@ -93,3 +93,21 @@ export const SEARCH_LISTINGS_QUERY = gql`
     }
   }
 `;
+
+export const GET_HOT_LISTING_BY_USER_ID = gql`
+  query hotListings($userId: Int!) {
+    hotListings(userId: $userId) {
+      id
+      title
+      price
+      images
+      location
+      category
+      subCategory
+      createdAt
+      sex
+      age
+      ageUnit
+    }
+  }
+`;

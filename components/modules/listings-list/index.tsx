@@ -117,7 +117,7 @@ export default function ListingsList({ user, inDashboard }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-2">
       <Select onValueChange={handleSort}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Sort by" />
