@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import { FilterSidebar } from './components/FilterSidebar';
 import { MarketContent } from './components/MarketContent';
 import LoadingComponent from './components/loading-component';
+import { SelectScrollable } from '@/components/ui/combobox';
 
 export default function MarketPage({
   searchParams,
